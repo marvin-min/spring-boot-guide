@@ -12,4 +12,9 @@ public class UsersController {
 	public ArrayList<String> allUsers() {
 		return new ArrayList<String>();
 	}
+	
+	@GetMapping("/hello")
+	public String hello() {
+		return "Greetings from Spring Boot!";
+	}
 }
