@@ -3,10 +3,13 @@ buildscript {
 		springBootVersion = '1.5.10.RELEASE'
 	}
 	repositories {
-		mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath "gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.17.2"
 	}
 }
 
@@ -14,13 +17,15 @@ apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
-
+apply plugin: "com.palantir.docker"
 group = 'com.jarorwar'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
-	mavenCentral()
+    maven {
+        url "https://plugins.gradle.org/m2/"
+    }
 }
 
 
@@ -31,4 +36,12 @@ dependencies {
 	compile("org.springframework.boot:spring-boot-devtools")
     testCompile("junit:junit")
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+
+}
+
+
+docker {
+    name "springio/gs-spring-boot-docker"
+    files jar.archivePath
+    buildArgs(["JAR_FILE":"${jar.archiveName}"])
 }
